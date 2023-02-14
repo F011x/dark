@@ -446,7 +446,6 @@ async def games(c: Client, m: Message):
             name = re.sub('تلفاز', 'ت ف ل ز ا', name)
             name = re.sub('حاسوب', 'س ا ح و ب', name)
             name = re.sub('انترنت', 'ا ت ن ر ن ت', name)
-            name = re.sub( فينوم', 'م ف ن و ي', name)
             name = re.sub('جسر', 'ر ج س', name)
             await m.reply_text(f"◍ اسرع واحد يرتبها » {name}\n√", reply_to_message_id=m.message_id)
         else:
