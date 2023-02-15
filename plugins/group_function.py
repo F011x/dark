@@ -1,10 +1,8 @@
 import os
 from pyrogram.errors import RPCError
 from backup_file import get_backup, upper_backup
-from config import super_sudoers, TOKEN, get_bot_information, prefix
-from database import *
+from config import super_sudoers, TOKEN
 from plugins.abrag import abrag
-from localization import use_chat_lang
 from plugins.antiflood import MessagesAntiFlood
 from plugins.azkar import *
 from plugins.admin import *
@@ -13,7 +11,6 @@ from plugins.cartoon import cartoon
 from plugins.commands import command
 from plugins.destroy_group import destroy_all_group
 from plugins.games import games
-from plugins.games import *
 from plugins.general import *
 from plugins.developer import *
 from plugins.group_rtb import *
@@ -21,7 +18,7 @@ from plugins.hals import *
 from plugins.ids import ids, get_mypoint, get_mymessage, get_mycontact
 from plugins.keyboard_private import lock_lockbroadcast_test, get_num_for_user_and_group, lock_lockgenyoutube_test
 from plugins.locks import *
-from plugins.music import music 
+from plugins.music import music
 from plugins.quran import *
 from plugins.ghnely import *
 from plugins.reply import *
@@ -43,19 +40,6 @@ import datetime
 
 @Client.on_message(filters.group & ~filters.regex(f"^@{get_bot_information()[1]}"))
 async def basegroup(c: Client, m: Message):
-    
-    if not lock_azkar_test(m):
-        try:
-            if not lock_azkar2_test(m):
-                await azkar(c, m)
-            else:
-                if datetime.datetime.now().hour != 1 and datetime.datetime.now().hour != 4 \
-                        and datetime.datetime.now().hour != 7 and datetime.datetime.now().hour != 10 \
-                        and datetime.datetime.now().hour != 13 and datetime.datetime.now().hour != 16 \
-                        and datetime.datetime.now().hour != 19 and datetime.datetime.now().hour != 22:
-                    await lock_azkar2_open(m)
-        except Exception as e:
-            print("azkar  " + str(e))
 
     if ban_global_test(m):
         try:
@@ -63,7 +47,7 @@ async def basegroup(c: Client, m: Message):
             if check[0]:
                 await m.delete()
                 return
-            await c.ban_chat_member(m.chat.id, m.from_user.id)
+            await c.kick_chat_member(m.chat.id, m.from_user.id)
             await m.delete()
             return
         except Exception as e:
@@ -164,7 +148,7 @@ async def basegroup(c: Client, m: Message):
             if check[2] == "deleteFalse":
                 return
             await m.delete()
-            await c.ban_chat_member(m.chat.id, m.from_user.id)
+            await c.kick_chat_member(m.chat.id, m.from_user.id)
             await m.reply_text(f"◍ تم حظر [{m.from_user.first_name}](tg://user?id={m.from_user.id}"
                                f") بسبب ارسال كلمه ممنوعه\n√", reply_to_message_id=m.message_id, parse_mode="Markdown")
             return
@@ -187,14 +171,13 @@ async def basegroup(c: Client, m: Message):
         await m.reply_text(f"◍ تم كتم [{m.from_user.first_name}](tg://user?id={m.from_user.id}"
                            f") بسبب ارسال كلمه ممنوعه\n√", reply_to_message_id=m.message_id, parse_mode="Markdown")
         return
-      
 
     if m.new_chat_members:
         set_db_mycontact(1, m.from_user.id, m.chat.id)
         for u in m.new_chat_members:
             if lock_entrygp_test(m):
                 try:
-                    await c.ban_chat_member(m.chat.id, u.id)
+                    await c.kick_chat_member(m.chat.id, u.id)
                     await m.chat.unban_member(u.id)
                     await m.delete()
                     return
@@ -203,7 +186,7 @@ async def basegroup(c: Client, m: Message):
 
             if u.username == get_bot_information()[1]:
                 if get_db_botname() is None:
-                    botname = "فينوم"
+                    botname = "سيمو"
                 else:
                     botname = get_db_botname()
                 x = f"""
@@ -228,7 +211,7 @@ async def basegroup(c: Client, m: Message):
                 if lock_kickbotatban_test(m):
                     try:
                         if u.is_bot:
-                            await c.ban_chat_member(m.chat.id, u.id)
+                            await c.kick_chat_member(m.chat.id, u.id)
                             return
                     except Exception as e:
                         print("lock_kickbotatban_test " + str(e))
@@ -236,7 +219,7 @@ async def basegroup(c: Client, m: Message):
                     set_db_meendafny(m.from_user.id, m.from_user.first_name, u.id, m.chat.id)
                     if lock_lockwelcome_test(m):
                         if get_db_addwelcomegroup(m.chat.id) is None:
-                            t = f""" 
+                            t = f"""
 • نورتنا يا {u.first_name} 🤍
 ❬ ممنوع الالفاظ والبرايفت واللينكات ❭ ⚠️
 ❬ غير كدة كلنا اخوات واصحاب ❭ ❤️ √
@@ -271,7 +254,7 @@ async def basegroup(c: Client, m: Message):
             if check[0]:
                 await m.delete()
                 return
-            await c.ban_chat_member(m.chat.id, m.from_user.id)
+            await c.kick_chat_member(m.chat.id, m.from_user.id)
             await m.delete()
             return
         except Exception as e:
@@ -401,7 +384,7 @@ async def basegroup(c: Client, m: Message):
                         if check[2] == "deleteFalse":
                             return
                         await m.delete()
-                        await c.ban_chat_member(m.chat.id, m.from_user.id)
+                        await c.kick_chat_member(m.chat.id, m.from_user.id)
                         await m.reply_text(f"◍ تم حظر [{m.from_user.first_name}](tg://user?id={m.from_user.id}"
                                            f") بسبب ارسال روابط\n√", reply_to_message_id=m.message_id,
                                            parse_mode="Markdown")
@@ -516,7 +499,7 @@ async def basegroup(c: Client, m: Message):
                 if check[2] == "deleteFalse":
                     return
                 await m.delete()
-                await c.ban_chat_member(m.chat.id, m.from_user.id)
+                await c.kick_chat_member(m.chat.id, m.from_user.id)
                 await m.reply_text(f"◍ تم حظر [{m.from_user.first_name}](tg://user?id={m.from_user.id}"
                                    f") بسبب التوجيه من القنوات\n√", reply_to_message_id=m.message_id,
                                    parse_mode="Markdown")
@@ -683,7 +666,7 @@ async def basegroup(c: Client, m: Message):
                         if check[2] == "deleteFalse":
                             return
                         await m.delete()
-                        await c.ban_chat_member(m.chat.id, m.from_user.id)
+                        await c.kick_chat_member(m.chat.id, m.from_user.id)
                         await m.reply_text(f"◍ تم حظر [{m.from_user.first_name}](tg://user?id={m.from_user.id}"
                                            f") بسبب كلماته السافله\n√", reply_to_message_id=m.message_id,
                                            parse_mode="Markdown")
@@ -887,7 +870,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("◍ لايوجد محظورين عام\n√", reply_to_message_id=m.message_id)
             else:
-                t = "\n◍ قائمة المحظورين عام \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة المحظورين عام \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -911,7 +894,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("◍ لا يوجد مكتومين عام\n√", reply_to_message_id=m.message_id)
             else:
-                t = "\n◍ قائمة الكتم العام \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة الكتم العام \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -949,7 +932,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("◍ لا توجد ردود عامه")
             else:
-                t = "\n◍ قائمة الردود العامه \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة الردود العامه \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"({row[0]})--->({row[1]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id)
@@ -1008,7 +991,7 @@ async def basegroup(c: Client, m: Message):
                                        "لا يوجد مطورين مرفوعين\n√", reply_to_message_id=m.message_id,
                                        parse_mode="Markdown")
                 else:
-                    t = "\n◍ قائمة المطورين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n" + f"◍ [ꪮ𝘴ꪖꪑꪖ](tg://user?id={super_sudoers[0]})\n" + f"◍ [ꪜꫀꪀꪮꪑ](tg://user?id={super_sudoers[1]})\n" + \
+                    t = "\n◍ قائمة المطورين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n" + f"◍ [᥉ᥱꪔ᥆](tg://user?id={super_sudoers[0]})\n" + f"◍ [᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆](tg://user?id={super_sudoers[1]})\n" + \
                         f"◍ [{n.first_name}](tg://user?id={sudoers[0]})\n\n√"
                     for row in lang:
                         t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
@@ -1064,11 +1047,11 @@ async def basegroup(c: Client, m: Message):
                 if lang is None:
                     await m.reply_text(f"◍ [ꪮ𝘴ꪖꪑꪖ](tg://user?id={super_sudoers[0]})\n" +
                                        f"◍ [ꪜꫀꪀꪮꪑ](tg://user?id={super_sudoers[1]})\n" +
-                                       f"◍ [{n.first_name}](tg://user?id={sudoers[0]})\n"
+                                       f"◍ [{n.first_name}](tg://user?id={sudoers[0]})\n\n√"
                                        "لا يوجد مطورين ثانويين مرفوعين\n√", reply_to_message_id=m.message_id,
                                        parse_mode="Markdown")
                 else:
-                    t = "\n◍ قائمة المطورين الثانويين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                    t = "\n◍ قائمة المطورين الثانويين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                     for row in lang:
                         t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                     await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1122,7 +1105,7 @@ async def basegroup(c: Client, m: Message):
                 await m.reply_text("◍ لا يوجد مميزين عام مرفوعين\n√",
                                    reply_to_message_id=m.message_id, parse_mode="Markdown")
             else:
-                t = "\n◍ قائمة المميزين عام \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة المميزين عام \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1179,7 +1162,7 @@ async def basegroup(c: Client, m: Message):
         if lang is None:
             await m.reply_text("◍ لا يوجد مالكين\n√", reply_to_message_id=m.message_id)
         else:
-            t = "\n◍ قائمة المالكين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+            t = "\n◍ قائمة المالكين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             for row in lang:
                 t = t + f"[{row[0]}](tg://user?id={row[1]})\n"
             await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1255,7 +1238,7 @@ async def basegroup(c: Client, m: Message):
         if lang is None:
             await m.reply_text("◍ لا يوجد منشئين\n√", reply_to_message_id=m.message_id)
         else:
-            t = "\n◍ قائمة المنشئين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+            t = "\n◍ قائمة المنشئين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             for row in lang:
                 t = t + f"[{row[0]}](tg://user?id={row[1]})\n"
             await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1305,7 +1288,7 @@ async def basegroup(c: Client, m: Message):
         if lang is None:
             await m.reply_text("◍ لا يوجد ادمنيه\n√", reply_to_message_id=m.message_id)
         else:
-            t = "\n◍ قائمة الادمنيه \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+            t = "\n◍ قائمة الادمنيه \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             for row in lang:
                 t = t + f"[{row[0]}](tg://user?id={row[1]})\n"
             await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1356,7 +1339,7 @@ async def basegroup(c: Client, m: Message):
         if lang is None:
             await m.reply_text("◍ لا يوجد مميزين\n√", reply_to_message_id=m.message_id)
         else:
-            t = "\n◍ قائمة المميزين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+            t = "\n◍ قائمة المميزين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             for row in lang:
                 t = t + f"[{row[0]}](tg://user?id={row[1]})\n"
             await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1411,7 +1394,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("لا يوجد محظورين\n√", reply_to_message_id=m.message_id, parse_mode="Markdown")
             else:
-                t = "\n◍ قائمة المحظورين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة المحظورين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1474,7 +1457,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("لا يوجد مكتومين\n√", reply_to_message_id=m.message_id, parse_mode="Markdown")
             else:
-                t = "\n◍ قائمة المكتومين \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة المكتومين \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"[{row[1]}](tg://user?id={row[0]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1832,7 +1815,7 @@ async def basegroup(c: Client, m: Message):
         if lang is None:
             await m.reply_text("◍ لا توجد كلمات ممنوعه\n√", reply_to_message_id=m.message_id)
         else:
-            t = "\n◍ قائمة الكلمات الممنوعه \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+            t = "\n◍ قائمة الكلمات الممنوعه \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             for row in lang:
                 t = t + f"{row[0]}\n"
             await m.reply_text(t, reply_to_message_id=m.message_id, parse_mode="Markdown")
@@ -1869,7 +1852,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("◍ لا توجد ردود")
             else:
-                t = "\n◍ قائمة الردود العامه \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة الردود العامه \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"({row[0]})--->({row[1]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id)
@@ -2074,7 +2057,7 @@ async def basegroup(c: Client, m: Message):
 
     if m.text == (get_db_botname() or "فينوم"):
         texting = ["اؤمر " + (get_db_botname() or "فينوم") + " شتريد؟❤️🥺",
-                   "اى يقلب " + (get_db_botname() or "فينوم") + "❤️",
+                   "اى يقلب " + (get_db_botname() or "سيمو") + "❤️",
                    "موجود عايز اى بوشك ده😒",
                    "موجود عاوز اى 😒",
                    "مالك حبيبى🥺",
@@ -2082,13 +2065,13 @@ async def basegroup(c: Client, m: Message):
                    "مبكلمكش🥺",
                    "شبيك لبيك❤️😂",
                    "ثانيه واحده بتشقط وجى🙄",
-                   "قلبى بينادى على " + (get_db_botname() or "فينوم") + "😘",
+                   "قلبى بينادى على " + (get_db_botname() or "سيمو") + "😘",
                    "نعسان محدش يصحينى🙄"
                    ]
         await m.reply_text(random.choice(texting), reply_to_message_id=m.message_id)
         return
 
-    if m.text == "بوت غادر" or m.text == (get_db_botname() or "فينوم") + " غادر":
+    if m.text == "بوت غادر" or m.text == (get_db_botname() or "سيمو") + " غادر":
         if secsudo(m):
             try:
                 await m.reply_text("◍ تم المغادره من الجروب حبيبى المطور❤️🥺\n√", reply_to_message_id=m.message_id)
@@ -2101,13 +2084,12 @@ async def basegroup(c: Client, m: Message):
             except RPCError as e:
                 await m.reply_text(str(e) + "\n\n" +
                                    "فى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> "
-                                   "[Shadow](tg://user?id=5656828413)",
+                                   "[samir](tg://user?id=5680297831)",
                                    reply_to_message_id=m.message_id, parse_mode="Markdown")
                 return
         else:
             await m.reply_text("◍ انت لست المطور\n√", reply_to_message_id=m.message_id)
             return
-
 
     if m.text == "حساب العمر":
         await omrk(m)
@@ -2201,26 +2183,24 @@ async def basegroup(c: Client, m: Message):
                              Shadoow.first_name, url=f"https://t.me/{Shadow. username}"
             )
             ], 
-            [ InlineKeyboardButton ( "ٍّّ𝘀ُُ𝗼ًًٍٍ𝗨ًًٍٍ𝗥ََِِ𝗰ََِِ𝗲 ِِ𝘃ََِِ𝗲ٍٍّّ𝗡ُُ𝗼ِِّّ𝗺", url=f"https://t.me/MRv7x" )], 
+            [ InlineKeyboardButton ( "ّ᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆", url=f"https://t.me/FTTUTY" )], 
         [InlineKeyboardButton("اضف البوت الي مجموعتك ✅",
                               url=f"https://t.me/{get_bot_information () [1]}?startgroup=new")],
         ])
         await m.reply_text("""
 ╭──── • ◈ • ────╮
-么 [َِ𝘴َِ𝘰َِ𝘶َِ𝘳َِ𝙘َِ𝘦 َِ𝙑َِ𝘦َِ𝙉َِ𝘰َِ𝘮](t.me/MRv7x)
-么 [َِ𝘰َِ𝘴َِ𝘢َِ𝘮َِ𝘢 َِ𝙑َِ𝘦َِ𝙉َِ𝘰َِ𝘮](t.me/WWWL5)
-么 [َِ𝘴َِ𝘰َِ𝘶َِ𝘳َِ𝙘َِ𝘦 َِ𝘎َِ𝘳َِ𝘰َِ𝘶َِ𝘗 ](t.me/TEAMv7x)
-么 [َِ𝘴َِ𝘰َِ𝘶َِ𝘳َِ𝙘َِ𝘦 َِ𝘥َِ𝘦َِ𝙑َِ𝘦َِ𝙇َِ𝘰َِ𝘗َِ𝘦َِ𝘳َِ𝘴](t.me/SOURCE_VENOM)
+么 [َِ᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆](t.me/MRv7x)
+么 [َِ᥉ ᥲ️ ꪔ Ꭵ ᖇ](t.me/DEV_SAMIR)
+么 [َِ᥉υρρ᥆ᖇƚ  ᥉ᥱꪔ᥆](t.me/FTTUTT0)
 ╰──── • ◈ • ────╯
-
 ⍟ 𝚃𝙷𝙴 𝙱𝙴𝚂𝚃 𝚂𝙾𝚄𝚁𝙲𝙴 𝙾𝙽 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼
         """, reply_markup=keyboard,  reply_to_message_id=m.message_id, parse_mode="Markdown")
 
     if m.text == "المطور" or m.text == "مطور البوت":
-        medoo = await c.get_users(super_sudoers[0])
+        Shadow = await c.get_users(super_sudoers[0])
         n = await c.get_users(sudoers[0])
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(medoo.first_name, url=f"https://t.me/{medoo.username}")],
+            [InlineKeyboardButton(Shadow.first_name, url=f"https://t.me/{Shadow.username}")],
             [InlineKeyboardButton(f"{n.first_name}", url=f"https://t.me/{n.username}")],
             [InlineKeyboardButton("ضيـف البـوت لمجمـوعتـك ✅",
                                   url=f"https://t.me/{get_bot_information()[1]}?startgroup=new")],
@@ -2246,7 +2226,7 @@ async def basegroup(c: Client, m: Message):
                                reply_to_message_id=m.message_id)
             return
 
-    if m.text  ==  "قفل الرابط" :
+    إذا  م . text  ==  "قفل الرابط" :
         if admin(m):
             await lock_linggroup_close(m)
         else:
@@ -2377,7 +2357,7 @@ async def basegroup(c: Client, m: Message):
 
     if m.text == "تعيين الايدي" or m.text == "تعين الايدي":
         if constractors(m):
-            medooid = """
+            Shadowid = """
 ◍ ارسل الان النص
 ◍ يمكنك اضافه :
 ◍ `#rdphoto` ~⪼ تعليق الصوره
@@ -2395,7 +2375,7 @@ async def basegroup(c: Client, m: Message):
 ◍ `#gmsgs` ~⪼ عدد رسائل الجروب 
             """
             set_db_wait("addcustomid", m.from_user.id, m.chat.id)
-            await m.reply_text(medooid, reply_to_message_id=m.message_id, parse_mode="Markdown")
+            await m.reply_text(Shadowid, reply_to_message_id=m.message_id, parse_mode="Markdown")
             return
         else:
             await m.reply_text("◍ هذا الامر لرتبه منشئ او اعلى\n√", reply_to_message_id=m.message_id)
@@ -2672,30 +2652,29 @@ async def basegroup(c: Client, m: Message):
                    "مسمعتش الاسم ده قبل كدة 🙄", " محصليش الشرف😏", "بدى ارجع يعع 💔😂"]
         await m.reply_text(random.choice(texting), reply_to_message_id=m.message_id)
         return
-       
-     
-    if m.text == "VENOM" or m.text == "اسامة" or m.text == "OSAMA" or m.text == "فينوم" \
-            or m.text == "VENOM" or m.text == "اسامة" or m.text == "OSAMA":
+
+    if m.text == "سمير" or m.text == "SAMIR" or m.text == "SAMIR" or m.text == "سمير" \
+            or m.text == "فينوم" or m.text == "VENOM" or m.text == "OSAMA":
         texting = [
-            "نعم ي قلب فينوم🖤 \n @WWWL5",
-            "اؤمرني حبيبي 😂 \n @WWWL5",
-            "ايش فيه يا زلمه؟ \n @WWWL5",
-            "طلباتك اوامر ايش بتريد 🖤 \n @WWWL5",
-            "شبيك لبيك فينوم بين ايديك 😂 \n @WWWL5",
-            "المطور مشغول الآن 😌 \n @WWWL5"
+            "نعم ي قلب سمير🖤 \n @DEV_SAMIR",
+            "اؤمرني حبيبي 😂 \n @DEV_SAMIR",
+            "ايش فيه يا زلمه؟ \n @DEV_SAMIR",
+            "طلباتك اوامر ايش بتريد 🖤 \n @DEV_SAMIR",
+            "شبيك لبيك فينوم بين ايديك 😂 \n @DEV_SAMIR",
+            "المطور مشغول الآن 😌 \n @DEV_SAMIR"
         ]
         await m.reply_text(random.choice(texting), reply_to_message_id=m.message_id)
         return
 
-    if m.text == "STORM" or m.text == "ستورم" or m.text == "storm" or m.text == "فينوكس" \
-            or m.text == "STORM" or m.text == "ستورم" or m.text == "storm":
+    if m.text == "SEMO" or m.text == "SEMO" or m.text == "storm" or m.text == "SEMO" \
+            or m.text == "SEMO" or m.text == "STORM" or m.text == "storm":
         texting = [
-            "نعم ي قلب ستورم🖤 \n @A_4_F",
-            "اؤمرني حبيبي 😂 \n @A_4_F",
-            "ايش فيه يا زلمه؟ \n @A_4_F",
+            "نعم ي قلب سيمو🖤 \n @DEV_SAMIR",
+            "اؤمرني حبيبي 😂 \n @DEV_SAMIR",
+            "ايش فيه يا زلمه؟ \n @DEV_SAMIR",
             "طلباتك اوامر ايش بتريد 🖤 \n @A_4_F",
-            "شبيك لبيك ستورم بين ايديك 😂 \n @A_4_F",
-            "المطور مشغول الآن 😌 \n @A_4_F"
+            "شبيك لبيك ستورم بين ايديك 😂 \n @DEV_SAMIR",
+            "المطور مشغول الآن 😌 \n @DEV_SAMIR"
         ]
         await m.reply_text(random.choice(texting), reply_to_message_id=m.message_id)
         return
@@ -2709,7 +2688,7 @@ async def basegroup(c: Client, m: Message):
             texting = """
 رابط الحذف في جميع مواقع التواصل ✸
 فكر قبل لا تتسرع وتروح
-ٴ≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫ٴ
+ٴ≪━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫ٴ
 ◍ بوت حذف [Telegram](t.me/delete7xbot) √
 ◍ رابط حذف [Telegram](https://my.telegram.org/auth?to=delete) √
 ◍ رابط حذف [instagram](https://www.instagram.com/accounts/login/?next=/accounts/remove/request/permanent/) √
@@ -2773,7 +2752,7 @@ async def basegroup(c: Client, m: Message):
                     await m.reply_animation("https://t.me/UURTBOT/36",
                                                                 caption=f"◍ لايمكننى طرد مطور السورس\n√", parse_mode="Markdown")
                     return
-                elif m.from_user.id == 5256751101:
+                elif m.from_user.id == 5680297831:
                     await m.reply_animation("https://t.me/UURTBOT/36",
                                                                 caption=f"◍ ²لايمكننى طرد مطور السورس\n√", parse_mode="Markdown")
                     return
@@ -2816,7 +2795,7 @@ async def basegroup(c: Client, m: Message):
                     await m.reply_animation("https://t.me/UURTBOT/38",
                                                                 caption=f"◍ لايمكننى كتم مطور السورس\n√", parse_mode="Markdown")
                     return
-                elif m.from_user.id == 5256751101:
+                elif m.from_user.id == 5680297831:
                     await m.reply_animation("https://t.me/UURTBOT/38",
                                                                 caption=f"◍ ²لايمكننى كتم مطور السورس\n√", parse_mode="Markdown")
                     return
@@ -2846,7 +2825,7 @@ async def basegroup(c: Client, m: Message):
             except Exception as e:
                 await m.reply_text(str(e) + "\n\n" +
                                    "فى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> "
-                                   "[Shadow](tg://user?id=5656828413)",
+                                   "[SAMIR](tg://user?id=5680297831)",
                                    reply_to_message_id=m.message_id, parse_mode="Markdown")
                 return
 
@@ -3007,7 +2986,7 @@ async def basegroup(c: Client, m: Message):
                 else:
                     promote = '✘'
                 await m.reply_text(f"\n◍ الرتبة : مشرف  "
-                                   f"\n◍ والصلاحيات هي ↓ \nٴ━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━\n◍ تغيير معلومات الجروب ↞ ❴ {info} ❵\n"
+                                   f"\n◍ والصلاحيات هي ↓ \nٴ━━᥉υρρ᥆ᖇƚ  ᥉ᥱꪔ᥆━━\n◍ تغيير معلومات الجروب ↞ ❴ {info} ❵\n"
                                    f"◍ حذف الرسائل ↞ ❴ {delete} ❵\n◍ حظر المستخدمين ↞ ❴ {restrict} ❵\n"
                                    f"◍ دعوة مستخدمين ↞ ❴ {invite} ❵\n◍ تثبيت الرسائل ↞ ❴ {pinmessage} ❵\n"
                                    f"◍ اضافة مشرفين جدد ↞ ❴ {promote} ❵",
@@ -3039,7 +3018,7 @@ async def basegroup(c: Client, m: Message):
             if lang is None:
                 await m.reply_text("◍ لا توجد اوامر مضافه")
             else:
-                t = "\n◍ قائمة الاوامر المضافه \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                t = "\n◍ قائمة الاوامر المضافه \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
                 for row in lang:
                     t = t + f"({row[0]})--->({row[1]})\n"
                 await m.reply_text(t, reply_to_message_id=m.message_id)
@@ -3074,7 +3053,7 @@ async def basegroup(c: Client, m: Message):
         if constractors(m):
             async for x in c.iter_chat_members(m.chat.id, filter="bots"):
                 try:
-                    await c.ban_chat_member(m.chat.id, x.user.id)
+                    await c.kick_chat_member(m.chat.id, x.user.id)
                     await m.chat.unban_member(x.user.id)
                 except Exception as e:
                     print("kick all bots: \n" + str(e))
@@ -3128,19 +3107,12 @@ async def basegroup(c: Client, m: Message):
 ########################################################################################################################
 ########################################################################################################################
 
-
-    if m.text == "تتجوزيني" or m.text == "تتجوزينى" or m.text == "تتزوجيني" or m.text == "تتزوجينى" and m.reply_to_message:
-        await ttgwzeny(c, m)
-        return
-
-
-    if m.text == "غنيلي" or m.text == "غنيلى":
-        await ghnely(c, m)
-        return
-       
-
     if m.text == "قرءان" or m.text == "قران" or m.text == "قرآن" or m.text == "القرآن" or m.text == "القرءان":
         await quran(c, m)
+        return
+       
+    if m.text == "غنيلي" or m.text == "غنيلى":
+        await ghnely(c, m)
         return
 
     if m.text == "اغانى" or m.text == "اغاني" or m.text == "الاغاني" or m.text == "الاغانى":

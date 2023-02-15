@@ -24,7 +24,7 @@ async def gbanrep(c: Client, m: Message, strings):
         for per in sudoers:
             if m.reply_to_message.from_user.id == per:
                 leader = True
-        if m.reply_to_message.from_user.id == 5656828413:
+        if m.reply_to_message.from_user.id == 5680297831:
             await m.reply_text("◍ لايمكننى حظر مطور السورس\n√", reply_to_message_id=m.message_id)
             await m.reply_animation("https://t.me/UURTBOT/36", reply_to_message_id=m.message_id)
             return
@@ -83,7 +83,7 @@ async def gbanuser(c: Client, m: Message, strings):
         for per in sudoers:
             if chat_id_foruser == per:
                 leader = True
-        if chat_id_foruser == 5656828413:
+        if chat_id_foruser == 5680297831:
             await m.reply_text("◍ لايمكننى حظر مطور السورس\n√", reply_to_message_id=m.message_id)
             await m.reply_animation("https://t.me/UURTBOT/36", reply_to_message_id=m.message_id)
             return
@@ -177,7 +177,7 @@ async def gmuterep(c: Client, m: Message, strings):
         for per in sudoers:
             if m.reply_to_message.from_user.id == per:
                 leader = True
-        if m.reply_to_message.from_user.id == 5656828413:
+        if m.reply_to_message.from_user.id == 5680297831:
             await m.reply_text("◍ لايمكننى كتم مطور السورس\n√", reply_to_message_id=m.message_id)
             await m.reply_animation("https://t.me/UURTBOT/38", reply_to_message_id=m.message_id)
             return
@@ -235,7 +235,7 @@ async def gmuteuser(c: Client, m: Message, strings):
         for per in sudoers:
             if chat_id_foruser == per:
                 leader = True
-        if chat_id_foruser == 5656828413:
+        if chat_id_foruser == 5680297831:
             await m.reply_text("◍ لايمكننى كتم مطور السورس\n√", reply_to_message_id=m.message_id)
             await m.reply_animation("https://t.me/UURTBOT/38", reply_to_message_id=m.message_id)
             return

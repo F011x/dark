@@ -335,7 +335,7 @@ async def get_num_group(m: Message, c: Client):
                 link_group = "لايوجد"
             if x == 30 or x == tags or e == 0:
                 tags = x + 30
-                message_send = "\n◍ قائمة الجروبات \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                message_send = "\n◍ قائمة الجروبات \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             x = x + 1
             message_send = message_send + f"◍ اسم الجروب -> {per[2]}\n◍ لينك الجروب -> {link_group}\n\n"
             if x == 30 or x == tags or e == 0:
@@ -359,7 +359,7 @@ async def get_num_user(m: Message):
         for e, per in enumerate(get_db_checkuserall()):
             if x == 100 or x == tags or e == 0:
                 tags = x + 100
-                message_send = "\n◍ قائمة الاعضاء \n≪━━━𝘴ꪮꪊ𝘳ᥴꫀ ꪜꫀꪀꪮꪑ━━━≫\n"
+                message_send = "\n◍ قائمة الاعضاء \n≪━━━᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆━━━≫\n"
             x = x + 1
             message_send = message_send + f"[{per[2]}](tg://user?id={per[1]})\n"
             if x == 100 or x == tags or e == 0:
@@ -398,7 +398,7 @@ async def get_information_server(m: Message):
 async def get_version_source(m: Message):
     with open("version.txt") as f:
         version = f.read().strip()
-    await m.reply_text(f"◍ اصدار سورس فينوم \n◍ الاصدار » {version}\n√", reply_to_message_id=m.message_id)
+    await m.reply_text(f"◍ اصدار سورس سيمو \n◍ الاصدار » {version}\n√", reply_to_message_id=m.message_id)
 
 
 ########################################################################################################################

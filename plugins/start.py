@@ -17,7 +17,7 @@ async def startsudo(c: Client, m: Message, strings):
         t = """💌╖اهلا بيك حبيبي آلمـطـور
 ⚙️╢ تقدر تتحكم باوامر البوت عن طريق
 🔍╢ الكيبور اللي ظهرلك تحت ↘️
-🔰╜ للدخول لقناة السورس [دوس هنا](https://t.me/MRv7x)"""
+🔰╜ للدخول لقناة السورس [دوس هنا](https://t.me/FTTUTY)"""
         keyboard = ReplyKeyboardMarkup(keyboard=[
             [KeyboardButton("تعطيل التواصل 🔰")] +
             [KeyboardButton("تفعيل التواصل ⚡️")],
@@ -70,7 +70,7 @@ async def startsudo(c: Client, m: Message, strings):
 async def start(c: Client, m: Message, strings):
     if m.chat.type == "private":
         if get_db_botname() is None:
-            botname = "فينوم"
+            botname = "سيمو"
         else:
             botname = get_db_botname()
         x = f"""
@@ -108,7 +108,7 @@ async def start(c: Client, m: Message, strings):
 async def start_back(c: Client, m: CallbackQuery, strings):
     if m.message.chat.type == "private":
         if get_db_botname() is None:
-            botname = "فينوم"
+            botname = "سيمو"
         else:
             botname = get_db_botname()
         x = f"""
@@ -143,10 +143,9 @@ async def start_back(c: Client, m: CallbackQuery, strings):
 async def infos(c: Client, m: CallbackQuery, strings):
     res = """
 ╭──── • ◈ • ────╮
-么 [َِ𝘴َِ𝘰َِ𝘶َِ𝘳َِ𝙘َِ𝘦 َِ𝙑َِ𝘦َِ𝙉َِ𝘰َِ𝘮](t.me/MRv7x)
-么 [َِ𝘰َِ𝘴َِ𝘢َِ𝘮َِ𝘢 َِ𝙑َِ𝘦َِ𝙉َِ𝘰َِ𝘮](t.me/WWWL5)
-么 [َِ𝘴َِ𝘰َِ𝘶َِ𝘳َِ𝙘َِ𝘦 َِ𝘎َِ𝘳َِ𝘰َِ𝘶َِ𝘗](t.me/TEAMv7x)
-么 [𝗗ََِِ𝗲ِِ𝘃ََِِ𝗲ٍٍََ𝗟ُُ𝗼ًًٍٍ𝗣ََِِ𝗲ًًٍٍ𝗥ٍّّ𝘀](t.me/SOURCE_VENOM)
+么 [َ ᥉᥆υᖇᥴᥱ ᥉ᥱꪔ᥆](t.me/FTTUTY)
+么 [َ᥉ ᥲ️ ꪔ Ꭵ ᖇ](t.me/DEV_SAMIR)
+么 [َ ᥉υρρ᥆ᖇƚ  ᥉ᥱꪔ᥆](t.me/FTTUTT0)
 ╰──── • ◈ • ────╯
 ⍟ 𝚃𝙷𝙴 𝙱𝙴𝚂𝚃 𝚂𝙾𝚄𝚁𝙲𝙴 𝙾𝙽 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼
         """
