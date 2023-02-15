@@ -2226,7 +2226,7 @@ async def basegroup(c: Client, m: Message):
                                reply_to_message_id=m.message_id)
             return
 
-    إذا  م . text  ==  "قفل الرابط" :
+    if m.text == "قفل الرابط":
         if admin(m):
             await lock_linggroup_close(m)
         else:
